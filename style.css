@@ -1,0 +1,33 @@
+body {
+    background-color: #292d2e;
+    color: white;
+}
+
+span {
+    font: italic bold 12px/30px Georgia, serif;
+  }
+
+  p.a {
+      background-color: dimgray
+  }
+
+  p.b {
+      background-color: black
+  }
+
+  ul {
+      list-style-type: square;
+  }
+
+  ol {
+    list-style-type: lower-alpha;
+}
+
+nav {
+    border: 2px solid white;
+    border-radius: 5px;
+  }
+
+  a:hover {
+      background-color: chartreuse;
+  }
