@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>Hello React!</title>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+</head>
+
+<body>
+    <h1>URL GEN</h1>
+    <div id="formal"></div>
+    
+
+    <script type="text/babel">
+
+    const clubs = ["alabama", "autoclubmo", "calif", 
+                    "eastcentral", "hawaii", "newmexico", 
+                    "northernnewengland", "texas", "tidewater"];
+
+    class NameForm extends React.Component {
+        constructor(props) { 
+            super(props); 
+            this.state = {value: ''};
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+
+        handleChange(event) {
+            this.setState({value: event.target.value});
+        }
+
+        handleSubmit(event) {
+            event.preventDefault();
+            ReactDOM.render(
+                <Linklists link={this.state.value} />,
+                document.getElementById('linkholder')
+            );
+        }
+
+        render() {
+            return (
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        <input type="text" value={this.state.value} onChange={this.handleChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                    <div id="linkholder"></div>
+                    
+                </form>
+            );
+        }
+    }
+
+    class Linklists extends React.Component {
+        constructor(props) { 
+            super(props);
+            this.link = props.link;
+        }
+        render() {
+            var currentClub;
+            for (let club of clubs) 
+                if (this.link.includes(club))
+                    currentClub = club;
+                    
+            const items = [];
+
+            for (let club of clubs)
+                items.push(<li> <a href={this.link.replace(currentClub, club)}> {club} </a> </li>);
+
+            return (
+                <div> 
+                    <ul>
+                        {items}
+                    </ul>
+
+                    <button onClick={openLinks} > Open all links </button>
+                    <button onClick={copyLinks} > Copy all links </button>
+                </div>
+            )
+        }
+    }
+
+    function copyLinks() {
+        var copyText = "";
+        for (let item of document.getElementsByTagName("li")) 
+            copyText = copyText.concat(item.firstElementChild.href, "\n");
+        const el = document.createElement('textarea');
+        el.value = copyText;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+    }
+
+    function openLinks() {
+        for (let item of document.getElementsByTagName("li"))
+            window.open(item.firstElementChild.href, '_blank');
+    }
+
+    ReactDOM.render(
+        <NameForm />,
+        document.getElementById('formal')
+    );
+    </script>
+</body>
+
+</html>
